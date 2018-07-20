@@ -1,0 +1,82 @@
+{{#section 'bigTitle'}} {{pageName}} {{/section}}
+<div class="single-product-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                {{#if success_msg}}
+                <div class="alert alert-success">{{success_msg}}</div>
+                {{/if}} 
+                 {{#if encourage_msg}}
+                <div class="alert alert-info">{{encourage_msg}}</div>
+                {{/if}} 
+                {{#if warning_msg}}
+                <div class="alert alert-warning">{{warning_msg}}</div>
+                {{/if}} {{#if primary_msg}}
+                <div class="alert alert-info">{{info_msg}}</div>
+                {{/if}} {{#if error_msg}}
+                <div class="alert alert-danger">{{error_msg}}</div>
+                {{/if}} {{#if error}}
+                <div class="alert alert-danger">{{error}}</div>
+                {{/if}}
+            </div>
+        </div>
+        <div class="row">
+            {{#each products}}
+            <div class="col-md-3 col-sm-6">
+                <div class="single-shop-product text-center">
+                    <div class="product-upper">
+                        <img src="uploads/{{imageAvatar}}" alt="{{productName}}">
+                    </div>
+                    <h2>
+                        <a href="single-product/{{id}}">{{productName}}</a>
+                    </h2>
+                    <div class="product-carousel-price">
+                        <ins>{{moneyFormat price}} vnđ</ins>
+
+                    </div>
+
+                    <div class="product-option-shop">
+                        <a href="javascript:void(0);" class="add_to_cart_button btn-addcart" data-quantity="1" data-product_sku="" data-product_id="{{{id}}}"
+                            rel="nofollow">Add to cart</a>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav>
+                        <ul class="pagination">
+                            <li>
+                                <a href="{{pageName}}/{{paramName}}?page=1" aria-label="Previous">
+                                    <span aria-hidden="true">«</span>
+                                </a>
+                            </li>
+                            {{#each page_numbers}} {{#if isCurPage}}
+                            <li class="active">
+                                <a href="javascript:;">{{value}}</a>
+                            </li>
+                            {{else}}
+                            <li>
+                                <a href="{{../pageName}}/{{../paramName}}?page={{value}}">{{value}}</a>
+                            </li>
+                            {{/if}} {{/each}}
+                            <li>
+                                <a href="{{pageName}}/{{paramName}}?page={{nPages}}" aria-label="Next">
+                                    <span aria-hidden="true">»</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#section 'js'}}
+<script src = 'js/add-to-cart.js'></script> 
+{{/section}}

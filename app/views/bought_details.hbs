@@ -1,0 +1,47 @@
+{{#section 'bigTitle'}} BOUGHT DETAILS {{/section}}
+
+<div class="container">
+    <div class="row" style="margin-top:40px;">
+        <div class="col-md-12">
+            <h3>Order Number: {{{genericDetail.orderId}}}</h3>
+            <p><i><span class="glyphicon glyphicon-time"></span> Order at<i>: {{{genericDetail.dateFormat}}}</p>
+            <h4><span class="glyphicon glyphicon-envelope"></span> Buyer Information</h4> 
+            <p><span class="glyphicon glyphicon-user"></span> <strong>Name<strong>: {{{genericDetail.firstName}}} {{{genericDetail.lastName}}}</p>
+            <p><span class="glyphicon glyphicon-map-marker"></span>Address: {{{genericDetail.deliveryAddress}}}, {{{genericDetail.city}}}, {{{genericDetail.province}}}</p>
+            <p><span class="glyphicon glyphicon-info-sign"></span> Order state: {{{genericDetail.stateFormat}}}</p>
+        </div>
+    </div>
+    <div class="row">
+         <div class="col-md-12">
+            <h4>Order details</h4> 
+            <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Original Price</th>
+                        <th>Discount</th>
+                        <th>Quantity</th>
+                        <th>Paid Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each productDetail}}
+                    <tr>
+                        <td>{{{productName}}}</td>
+                        <td>{{{price_per_unit}}}</td>
+                        <td>
+                            <span class="hightlight-discount">{{{discount}}}%</span>
+                        </td>
+                          <td>{{{productQuantity}}}</td>
+                        <td>{{{totalAmount}}} VND</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <h4>Total: {{{genericDetail.totalAmount}}} VND</h4>
+            <h4>Discount: {{{genericDetail.discount}}} %</h4>
+        </div>
+        </div>
+    </div>
+</div>

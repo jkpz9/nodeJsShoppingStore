@@ -1,0 +1,164 @@
+<div class="single-product-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+      {{# if errors }}
+    {{# each errors }}
+          <p class="alert alert-danger">{{ msg }}</p>
+    {{/each}}
+    {{/if}}
+
+    {{# if error }}
+         <p class="alert alert-danger">{{ error }}</p>
+    {{/if}}
+
+    {{# if success_msg }}
+         <p class="alert alert-success">{{ success_msg }}</p>
+    {{/if}}
+
+    {{# if error_msg }}
+         <p class="alert alert-danger">{{ success_msg }}</p>
+    {{/if}}
+
+        <div class="row">
+             <div class="col-md-5">
+                <div class="row">
+                    <h2>Address to deliver</h2>
+        <form action="/checkout" method="post">
+                    <div class="form-group">
+                         <label>Phone Number</label>
+                        <input name="phoneNumber" value="{{{userz.phoneNumber}}}" type="text" placeholder="Enter Phone Number Here.." class="form-control">
+                    </div>
+                     <div class="form-group">
+                       <label>Address</label>
+                    <textarea name="livingAddress" placeholder="Enter Address Here.." rows="1" class="form-control">{{{userz.lingvingAddress}}}</textarea>
+                    </div>
+                     <div class="form-group">
+                         <label>Province</label>
+                        <!-- <input type="text" placeholder="Enter City Name Here.." class="form-control"> -->
+                        <select name="livingCity" class="form-control" id="sel1">
+                               {{#each provincesz }}
+                                               <option value="{{this.provinceId}}">{{this.provinceName}}</option>
+                                               {{/each}}
+                        </select>
+                    </div>
+                     <div class="form-group">
+                        <label>Díctrict</label>
+                        <!-- <input type="text" placeholder="Enter State Name Here.." class="form-control"> -->
+                        <select name="livingDistrict" class="form-control" id="sel2">
+                            {{#each citiesOfThisProvince }}
+                                               <option value="{{this.cityId}}">{{this.cityName}}</option>
+                                               {{/each}}
+                        </select>   
+                    </div>
+                   
+                 <button type="submit" class="btn btn-lg btn-info signup-submit" {{{enable}}}>Pay out</button>    
+        </form> 
+    </div>
+             </div>
+            <div class="col-md-7">
+                <div class="product-content-right">
+                    <div class="woocommerce">
+                        {{# if products}}
+                        <h2>Order Dertails</h2>
+                            <table id="cart-Items" cellspacing="0" class="shop_table cart">
+                                <thead>
+                                    <tr>
+                                        <th class="product-thumbnail">&nbsp;</th>
+                                        <th class="product-name">Product</th>
+                                        <th class="product-price">Price</th>
+                                        <th class="product-quantity">Quantity</th>
+                                        <th class="product-subtotal">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{# each products}}
+                                    <tr class="cart_item" data-row="{{item.id}}">
+
+                                        <td class="product-thumbnail">
+                                            <a href="single-product.html">
+                                                <img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="uploads/{{{item.imageAvatar}}}">
+                                            </a>
+                                        </td>
+
+                                        <td class="product-name" style="font-size:13px;">
+                                            <a href="single-product.html">{{item.productName}}</a>
+                                        </td>
+
+                                        <td class="product-price">
+                                            <span class="amount">{{item.price}} VND</span>
+                                        </td>
+
+                                        <td class="product-quantity">
+                                            <div class="quantity buttons_added">
+                                                <input disabled type="number" size="4" class="input-text qty text" title="Qty" value="{{qty}}" min="0" step="1">
+                                            </div>
+                                        </td>
+
+                                        <td class="product-subtotal">
+                                            <span class="amount">{{price}}</span>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                    <tr>
+                                        <td colspan="4" style="font-size:28px;">Total</td>
+                                        <td class="cart_item" colspan="1">
+                                            <strong>
+                                                    <span class="amount">{{{totalPrice}}}</span>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            {{else}}
+                            <div class="row">
+                              <div class="col-sm-6 col-md-6 col-md-offset-3 col-sm-offset-3">
+                                <h2>No items in cart</h2>
+                              </div>
+                             </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#section 'js'}}
+<script>
+    $(function() {
+            $('#sel1 option')
+             .removeAttr('selected')
+             .filter('[value={{{thisProvinceId}}}]')
+             .attr('selected', true)
+        
+            $('#sel2 option')
+             .removeAttr('selected')
+             .filter('[value={{{userz.livingTownId}}}]')
+             .attr('selected', true)
+
+
+             $('#sel1').on('change', function() {
+             var provinceId = this.value;
+            $.ajax({
+                url: 'cityList/'+provinceId,
+                method: 'GET',
+                success: function(data) {
+                    console.log(data);
+                    var html = '<option disabled selected value> -- select an option -- </option>';
+                    for(i=0; i<data.cities.length; i++)
+                    {
+                        html += `<option value='${data.cities[i].cityId}'>${data.cities[i].cityName}</option>`;
+                    }
+
+                    $('#sel2').empty();
+                    $('#sel2').append(html);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+         });
+        });
+</script>
+{{/section}}

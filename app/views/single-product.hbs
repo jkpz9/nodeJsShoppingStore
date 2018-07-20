@@ -1,0 +1,220 @@
+{{#section 'bigTitle'}} SINGLE PRODUCT {{/section}}
+<div class="single-product-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            {{#with product}}
+            <div class="col-md-12">
+                <div class="product-content-right">
+                    <div class="product-breadcroumb">
+                        <a href="/">Home</a>
+                        <a href="/manufacturer/{{manufacturerName}}">{{manufacturerName}}</a>
+                        <a href="/single-product/{{id}}">{{productName}}</a>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="product-images">
+                                <div class="product-main-img">
+                                    {{#each images}} 
+                                    {{#if isAvatar}}
+                                    <img id='img-avatar' src="uploads/{{imagePath}}" class="img-responsive img-avatar" alt="Image">
+                                    {{/if}} 
+                                    {{/each}}
+                                </div>
+                                <div class="multiple-items">
+                                    {{#each images}}
+                                    <div>
+                                        <img id='img-{{id}}' class="img-responsive img-review" src="uploads/{{imagePath}}" alt="" onclick="changeImage(this.id)">
+                                    </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="product-inner">
+                                <h2 class="product-name">{{productName}} </h2>
+                                <div class="product-inner-price">
+                                    <ins>{{moneyFormat price}} vnđ</ins>
+                                    {{!--
+                                    <del>$800.00</del> --}}
+                                </div>
+                                <div class="product-inner-price">
+                                    <ins>Made by {{manufacturerName}}</ins>
+                                </div>
+
+                                <form action="" class="cart">
+                                    {{!-- <div class="quantity">
+                                        <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" max"100" step="1">
+                                    </div> --}}
+                                    <button class="add_to_cart_button btn-addcart" type ="button" data-quantity="1" data-product_sku="" data-product_id="{{{id}}}">Add to cart</button>
+                                </form>
+
+                                <div class="product-inner-category">
+                                    <p>
+                                        Manufacturer:
+                                        <a href="/manufacturer/{{manufacturerName}}">{{manufacturerName}}.</a> 
+                                        <br/>
+                                        Category:
+                                        <a href="/category/{{categoryName}}">{{categoryName}}.</a> 
+                                    </p>
+                                </div>
+                                <div class="product-inner-price">
+                                    <a>
+                                        <span>{{views}} views</span>
+                                    </a>
+                                </div>
+                                <div role="tabpanel">
+                                    <ul class="product-tab" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Description</a>
+                                        </li>
+                                        {{!-- <li role="presentation">
+                                            <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Reviews</a>
+                                        </li> --}}
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane fade in active" id="home">
+                                            <h2>Product Description</h2>
+                                            <p>
+                                                {{description}}.outner
+                                            </p>
+                                        </div>
+                                        {{!-- <div role="tabpanel" class="tab-pane fade" id="profile">
+                                            <h2>Reviews</h2>
+                                            <div class="submit-review">
+                                                <p>
+                                                    <label for="name">Name</label>
+                                                    <input name="name" type="text">
+                                                </p>
+                                                <p>
+                                                    <label for="email">Email</label>
+                                                    <input name="email" type="email">
+                                                </p>
+                                                <div class="rating-chooser">
+                                                    <p>Your rating</p>
+
+                                                    <div class="rating-wrap-post">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </div>
+                                                </div>
+                                                <p>
+                                                    <label for="review">Your review</label>
+                                                    <textarea name="review" id="" cols="30" rows="10"></textarea>
+                                                </p>
+                                                <p>
+                                                    <input type="submit" value="Submit">
+                                                </p>
+                                            </div>
+                                        </div> --}}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/with}}
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 col-lg-12">
+                <div class="related-products-wrapper">
+                    <h2 class="related-products-title">Products from the same manufacturer</h2>
+                    <div class="five-same-products">
+                        {{#each proManufacturer}}
+                        <div class="single-product text-center">
+                            <div class="product-f-image">
+                                <img src="uploads/{{imageAvatar}}" alt="{{productName}}">
+                                <div class="product-hover mini-product-hover">
+                                    <a href="javascript:void(0);" class="btn-addcart add-to-cart-link" data-quantity="1" data-product_sku="" data-product_id="{{{id}}}">
+                                        <i class="fa fa-shopping-cart"></i> Add to cart</a>
+                                    <a href="/single-product/{{id}}" class="view-details-link">
+                                        <i class="fa fa-link"></i> See details</a>
+                                </div>
+                            </div>
+
+                            <h2>
+                                <a href="/single-product/{{id}}">{{productName}}</a>
+                            </h2>
+
+                            <div class="product-carousel-price">
+                                <ins>{{moneyFormat price}} vnđ</ins>
+                                {{!--
+                                <del>$800.00</del> --}}
+                            </div>
+                        </div>
+
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="related-products-wrapper">
+                    <h2 class="related-products-title">Products in the same category</h2>
+                    <div class="five-same-products">
+                        {{#each proCategory}}
+                        <div class="single-product text-center">
+                            <div class="product-f-image">
+                                <img src="uploads/{{imageAvatar}}" alt="{{productName}}">
+                                <div class="product-hover mini-product-hover">
+                                    <a href=href="javascript:void(0);" class="btn-addcart add-to-cart-link" data-quantity="1" data-product_sku="" data-product_id="{{{id}}}">
+                                        <i class="fa fa-shopping-cart"></i> Add to cart</a>
+                                    <a href="/single-product/{{id}}" class="view-details-link">
+                                        <i class="fa fa-link"></i> See details</a>
+                                </div>
+                            </div>
+
+                            <h2>
+                                <a href="/single-product/{{id}}">{{productName}}</a>
+                            </h2>
+
+                            <div class="product-carousel-price">
+                                <ins>{{moneyFormat price}} vnđ</ins>
+                                {{!--
+                                <del>$800.00</del> --}}
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#section 'js'}}
+<script src="slick/slick.js"></script>
+<script src="slick/slick.min.js"></script>
+<script src="js/add-to-cart.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        
+        
+        $('.multiple-items').slick({
+            dots: true,
+            infinite: true,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+        });
+    });
+</script>
+<script type="text/javascript">
+    function changeImage(id) {
+        let srcImage = document.getElementById(id).src;
+        console.log(srcImage);
+        let srcAvatar = document.getElementById('img-avatar').src;
+        document.getElementById('img-avatar').src = srcImage;
+    }
+</script> {{/section}}

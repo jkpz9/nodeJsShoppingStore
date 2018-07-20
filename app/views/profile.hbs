@@ -1,0 +1,224 @@
+{{#section 'bigTitle'}}
+    PROFILE PAGE
+{{/section}}
+<div class="single-product-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="col-lg-12">
+                {{# if errors }}
+                {{# each errors }}
+                      <p class="alert alert-danger">{{ this.msg }}</p>
+                {{/each}}
+                {{/if}}
+              {{#if success_msg}}
+                <div class="alert alert-success">{{success_msg}}</div>
+              {{/if}}
+
+              {{#if error_msg}}
+                <div class="alert alert-danger">{{error_msg}}</div>
+              {{/if}}
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="single-sidebar">
+                        <h2 class="sidebar-title">Setting</h2>
+                        <div class="thubmnail-recent">
+                            <button id="btn_password" class="btn btn-success changepassword">Change password</button>
+                             
+                        </div>
+                         <div class="thubmnail-recent">
+                            <button id="btn_profile" class="btn btn-primary changeprofile">Change profile</button>
+                         </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="product-content-right">
+                        <form id="changepassword" action="/changepassword/{{{user.id}}}" class="checkout" method="post" name="checkout">
+
+                            <div id="customer_details" class="col3-set">
+                                
+                                    <div class="woocommerce-billing-fields">
+                                        <h3>Change Password</h3>
+
+                                        <div class="clear"></div>
+                                        <div class="create-account">
+                                            <p class="form-row validate-required">
+                                                <label class="" for="account_password">Old password
+                                                    <abbr title="required" placeholder="Your current password" class="required">*</abbr>
+                                                </label>
+                                                <input type="password" value="" name="old_password" class="input-text">
+                                            </p>
+                                            <div class="clear"></div>
+                                        </div>
+
+                                        <p class="form-row form-row-wide address-field validate-required">
+                                            <label class="" for="billing_address_1">New password (at least comprise a digit)
+                                                <abbr title="required" class="required">*</abbr>
+                                            </label>
+
+                                            <input type="password" value="" placeholder="New more secure pass" id="billing_address_1" name="new_password" class="input-text ">
+                                        </p>
+
+                                        <div class="clear"></div>
+
+                                        <p class="form-row form-row-wide address-field validate-required">
+                                            <label class="" for="billing_address_1">Confirm New password
+                                                <abbr title="required" class="required">*</abbr>
+                                            </label>
+
+                                            <input type="password" value="" placeholder="Confirm your new pass" id="billing_address_2" name="confirm_new_password" class="input-text ">
+                                        </p>
+                                        <div class="clear"></div>
+                                        <div class="form-row place-order">
+                                            <input type="submit" data-value="Save" value="Save" id="place_order" name="woocommerce_checkout_place_order" class="button alt">
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                    </div>
+                    </form>
+                        <form id="profile" action="/changeprofile/{{{user.id}}}" class="checkout" method="post" name="checkout">
+
+                            <div id="customer_details" class="col3-set">
+                                
+                                    <div class="woocommerce-billing-fields">
+                                        <h3>Profile Details</h3>
+
+                                        <p class="form-row form-row-first validate-required">
+                                            <label class="" for="billing_first_name">First Name
+                                            </label>
+                                            <input readonly="readonly" type="text" value="{{{userz.firstName}}}" placeholder="" id="billing_first_name" name="firstname" class="input-text ">
+                                        </p>
+
+                                        <p id="billing_last_name_field" class="form-row form-row-last validate-required">
+                                            <label class="" for="billing_last_name">Last Name
+                                            </label>
+                                            <input readonly="readonly" type="text" value="{{{userz.lastName}}}" placeholder="" id="billing_last_name" name="lastname" class="input-text ">
+                                        </p>
+                                        <div class="clear"></div>
+
+                                         <p class="form-row form-row-first validate-required">
+                                            <label class="" for="billing_first_name">Email
+                                            </label>
+                                            <input readonly="readonly" type="text" value="{{{userz.emailAddress}}}" placeholder="" name="firstname" class="input-text ">
+                                        </p>
+
+                                         <p class="form-row form-row-first validate-required">
+                                            <label class="" for="billing_first_name">Date of Birth
+                                            </label>
+                                            <input readonly="readonly" type="text" value="{{{userz.dobFormated}}}" placeholder="" name="dob" class="input-text ">
+                                        </p>
+
+                                         <p class="form-row form-row-first validate-required">
+                                            <label class="" for="billing_first_name">Email
+                                            </label>
+                                            <input readonly="readonly" type="text" value="{{{userz.gender}}}" placeholder="" name="gender" class="input-text ">
+                                        </p>
+
+                                        <p id="billing_address_1_field" class="form-row form-row-wide address-field validate-required">
+                                            <label class="" for="billing_address_1">City/Province
+                                                <abbr title="required" class="required">*</abbr>
+                                            </label>
+
+                                            {{!-- <input type="text" value="" placeholder="Street address" id="billing_address_1" name="billing_address_1" class="input-text "> --}}
+                                            <select class="country_to_state country_select" id="sel1" name="livingCity">
+                                               {{!--  <option disabled selected value> -- select an option -- </option> --}}
+                                               {{#each provincesz }}
+                                               <option value="{{this.provinceId}}">{{this.provinceName}}</option>
+                                               {{/each}}
+                                            </select>
+                                        </p>
+
+                                        <p id="billing_city_field" class="form-row form-row-wide address-field validate-required" data-o_class="form-row form-row-wide address-field validate-required">
+                                            <label class="" for="billing_city">Town/Dicstrict
+                                                <abbr title="required" class="required">*</abbr>
+                                            </label>
+                                            <select class="country_to_state country_select" id="sel2" name="livingDistrict">
+                                                 {{!-- <option disabled selected value> -- select an option -- </option --}}>
+                                               {{#each citiesOfThisProvince }}
+                                               <option value="{{this.cityId}}">{{this.cityName}}</option>
+                                               {{/each}}
+                                            </select>
+
+                                           {{!--  <input type="text" value="" placeholder="Town / City" id="billing_city" name="billing_city" class="input-text "> --}}
+                                        </p>
+
+                                        <p id="billing_state_field" class="form-row form-row-first address-field validate-state" data-o_class="form-row form-row-first address-field validate-state">
+                                            <label class="" for="billing_state">Street</label>
+                                            <input type="text" id="billing_state" name="livingAddress" placeholder="Street" value="{{{userz.lingvingAddress}}}" class="input-text ">
+                                        </p>
+                                        <div class="clear"></div>
+
+                                        <p id="billing_phone_field" class="form-row form-row-last validate-required validate-phone">
+                                            <label class="" for="billing_phone">Phone
+                                                <abbr title="required" class="required">*</abbr>
+                                            </label>
+                                            <input type="text" value="{{{userz.phoneNumber}}}" placeholder="" id="billing_phone" name="phoneNumber" class="input-text ">
+                                        </p>
+                                        <div class="clear"></div>
+
+                                        
+                                        <div class="form-row place-order">
+                                            <input type="submit" data-value="Save" value="Save" name="woocommerce_checkout_place_order" class="button alt">
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+{{#section 'js'}}
+    <script type="text/javascript">
+        $(function() {
+            $('#changepassword').hide(); // default actions
+            $('#btn_password').on('click', () => {
+                $('#changepassword').show();
+                $('#profile').hide();
+            })
+            $('#btn_profile').on('click', () => {
+                $('#profile').show();
+                $('#changepassword').hide();
+            })
+
+            $('#sel1 option')
+             .removeAttr('selected')
+             .filter('[value={{{thisProvinceId}}}]')
+             .attr('selected', true)
+        
+            $('#sel2 option')
+             .removeAttr('selected')
+             .filter('[value={{{userz.livingTownId}}}]')
+             .attr('selected', true)
+
+
+             $('#sel1').on('change', function() {
+             var provinceId = this.value;
+            $.ajax({
+                url: 'cityList/'+provinceId,
+                method: 'GET',
+                success: function(data) {
+                    console.log(data);
+                    var html = '<option disabled selected value> -- select an option -- </option>';
+                    for(i=0; i<data.cities.length; i++)
+                    {
+                        html += `<option value='${data.cities[i].cityId}'>${data.cities[i].cityName}</option>`;
+                    }
+
+                    $('#sel2').empty();
+                    $('#sel2').append(html);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+         });
+        });
+    </script>
+{{/section}}

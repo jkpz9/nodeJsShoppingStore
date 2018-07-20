@@ -1,0 +1,196 @@
+/* Mobile Layout: 320px */
+@media all and (min-width: 320px) { 
+    
+    .content{
+        width: 100%;
+    }
+    
+    .map-area{
+        position: relative;
+        width: 100%;
+        height: 350px;
+    }
+    .map{
+        position: absolute;
+        left: 50%;
+        top :50%;
+        width: 90%;
+        height: 90%;
+        transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translateX(-50%) translateY(-50%);
+    }
+
+    .form-contact{
+        /* position: absolute; */
+        margin: 20px;
+        padding : 10px;
+    }
+
+    .product-main-img > .img-avatar {
+        margin: 0 auto;
+        max-height: 400px;
+    }
+
+    .img-review {
+        margin: 0 auto;
+        max-height: 150px;
+    }
+
+    .slick-prev:before, .slick-next:before {
+    color: #2a9729 !important
+    }
+}
+
+/* Tablet Layout: 768px. */
+@media all and (min-width: 768px){ 
+
+    .content{
+        width: 100%;
+    }
+
+    .map-area{
+        position: relative;
+        width: 100%;
+        height: 500px;
+    }
+    .map{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 90%;
+        height: 90%;
+        margin: auto;
+        transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translateX(-50%) translateY(-50%);
+    }
+
+    .form-contact{
+        padding : 10px;
+    }
+
+    .product-hover a {
+        background: none repeat scroll 0 0 #1abc9c;
+        border-radius: 5px;
+        color: #fff;
+        display: block;
+        font-size: 10px;
+        left: 10%;
+        margin: 0;
+        padding: 10px;
+        position: absolute;
+        text-align: center;
+        text-transform: uppercase;
+        border: 1px solid #1abc9c;
+        width: 80%;
+        z-index: 99;
+        transition: .4s;
+    }
+
+    .single-product {
+        margin:50px 5px;
+        max-width: 18%;
+        position: relative;
+    }
+
+    .list-product {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        justify-content: center;
+    }
+
+    .five-same-products{
+        display: flex;
+        align-items: stretch;
+        justify-content: flex-start;
+    }
+    
+    .single-product:hover .product-hover a.add-to-cart-link {
+        top: 25%;
+    }
+    
+    .single-product:hover .product-hover a.view-details-link {
+        bottom: 25%;
+    }
+
+}
+
+/* Laptop and PC */
+@media all and (min-width: 1200px){
+    .container-customize{
+        width: 1350px;
+        margin:0 auto;
+        display:flex;
+    }
+    .content{
+        width: 100%;
+        display: flex;
+        margin-top: 50px;
+    }
+
+    .form-contact{
+        width: 40%;
+        margin: 20px auto;
+    }
+
+    .map-area{
+        position: relative;
+        width: 100%;
+        height: 500px;
+    }
+    .map{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 90%;
+        height: 90%;
+        transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translateX(-50%) translateY(-50%);
+    }
+ 
+    .mini-product-hover a.add-to-cart-link {
+        top: -20%;
+    }
+    
+    .mini-product-hover a.view-details-link {
+        bottom: -20%;
+    }
+
+    .mini-product-hover a {
+        background: none repeat scroll 0 0 #1abc9c;
+        border-radius: 5px;
+        color: #fff;
+        display: block;
+        font-size: 10px;
+        left: 10%;
+        margin: 0;
+        padding: 10px;
+        position: absolute;
+        text-align: center;
+        text-transform: uppercase;
+        border: 1px solid #1abc9c;
+        width: 80%;
+        z-index: 99;
+        transition: .4s;
+    }
+
+    .single-product:hover .product-hover a.add-to-cart-link {
+        top: 35%;
+    }
+    
+    .single-product:hover .product-hover a.view-details-link {
+        bottom: 35%;
+    }
+
+    .single-product:hover .mini-product-hover a.add-to-cart-link {
+        top: 30%;
+    }
+    
+    .single-product:hover .mini-product-hover a.view-details-link {
+        bottom: 30%;
+    }
+
+    .product-hover a{
+        font-size: 15px;
+    }
+}

@@ -1,0 +1,259 @@
+{{#section 'BigTitle'}} Orders Management {{/section}}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    Order Detail
+                </h2>
+            </div>
+            <div class="body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Buyer</th>
+                                <th>Address</th>
+                                <th>Contact Phone</th>
+                                <th>Date</th>
+                                <th>Paid Amount</th>
+                                <th>Status</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                        </tfoot>
+                        <tbody>
+                            {{#with order}}
+                            <tr>
+                                <td class="hightlight">{{orderId}}</td>
+                                <td>{{firstName}} {{lastName}}</td>
+                                {{#with ../deliveryAddress}}
+                                <td>{{deliveryAddress}}, {{cityName}}, {{provinceName}}</td>
+                                <td>{{phoneNumber}}</td>
+                                {{/with}}
+                                <td>{{dateFormat}}</td>
+                                <td id = "total-amount">{{moneyFormat totalAmount}}</td>
+                                <td id = "state-order">{{stateFormat}}</td>
+                                <td>
+                                    <button id="btn-change-order" type="button" class="btn btn-warning btn-xs" aria-label="Left Align" value = "{{orderId}}">
+                                        <i class="material-icons">mode_edit</i>
+                                    </button>
+                                </td>
+                                {{#if ../canDelete}}
+                                <td>
+                                    <button id = "btn-remove-order" type="button" class="btn btn-danger btn-xs" aria-label="Left Align" value="{{orderId}}">
+                                        <i class="material-icons">delete</i>
+                                    </button>
+                                </td>
+                                {{else}}
+                                <td>
+                                    <button id = "btn-remove-order" type="button" class="btn btn-danger btn-xs" aria-label="Left Align" value="{{orderId}}" disabled>
+                                        <i class="material-icons">delete</i>
+                                    </button>
+                                </td>
+                                {{/if}}
+                            </tr>
+                            {{/with}}
+                        </tbody>
+                    </table>
+                </div>
+
+                <h1>List Order</h1>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                        <thead>
+                            <tr>
+                                <th>Order Detail ID</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Price Pre Unit</th>
+                                <th>Total Amount</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                        </tfoot>
+                        <tbody>
+                            {{#each lOrderDetail}}
+                            <tr id = {{detailId}}>
+                                <td class="hightlight">{{detailId}}</td>
+                                <td>{{productName}}</td>
+                                <td>{{productQuantity}}</td>
+                                <td>{{moneyFormat price_per_unit}}</td>
+                                <td>{{moneyFormat totalAmount}}</td>
+                                {{#if ../canDelete}}
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-xs btn-delete btn-delete-order-detail" aria-label="Left Align" onclick="deleteOrderDetail({{orderId}},{{detailId}})">
+                                        <i class="material-icons">delete</i>
+                                    </button>
+                                </td>
+                                {{else}}
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-xs btn-delete btn-delete-order-detail" aria-label="Left Align" disabled>
+                                        <i class="material-icons">delete</i>
+                                    </button>
+                                </td>
+                                {{/if}}
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{#section 'js'}}
+<script src="js/bootbox.min.js"></script>
+<script>
+
+    $('#btn-change-order').on('click', function () {
+        let orderId = $(this).val();
+        bootbox.prompt({
+            size: 'small',
+            title: "Change state order!",
+            inputType: 'select',
+            inputOptions: [
+                {
+                    text: 'Unconfirmed',
+                    value: '-1',
+                },
+                {
+                    text: 'Confirmed',
+                    value: '0',
+                },
+                {
+                    text: 'Delivering',
+                    value: '1',
+                },
+                {
+                    text: 'Completed',
+                    value: '2',
+                }
+            ],
+            callback: function (result) {
+                console.log(result);
+                if(!result){
+                    return;
+                }
+                let state = result;
+                $.ajax({
+                    type: "post",
+                    url: "/change_state_order",
+                    data: {
+                        orderId: orderId,
+                        state: state
+                    },
+                    success: function (response) {
+                        
+                        $("#state-order").text(response);
+                        if(response === 'Unconfirmed'){
+                            $('#btn-remove-order').removeAttr('disabled');
+                            $('.btn-delete-order-detail').removeAttr('disabled');
+                        }
+                        else if(response === 'Confirmed'){
+                            $('#btn-remove-order').removeAttr('disabled');
+                            $('.btn-delete-order-detail').removeAttr('disabled');
+                        }
+                        else if(response === 'Delivering'){
+                            $('#btn-remove-order').attr('disabled','disabled');
+                            $('.btn-delete-order-detail').attr('disabled','disabled');
+                        }
+                        else if(response === 'Completed'){
+                            $('#btn-remove-order').attr('disabled','disabled');
+                            $('.btn-delete-order-detail').attr('disabled','disabled');
+                        }
+                    },
+                    error: function(response){
+                        bootbox.alert("Change fail!");
+                    }
+
+                });
+            }
+        });
+    });
+
+    $('#btn-remove-order').on('click', function () {
+        let orderId = $(this).val();
+        bootbox.confirm({
+            size: 'small',
+            title: 'Delete Order ' + orderId,
+            message: "Are you sure?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                console.log('This was logged in the callback: ' + result);
+                if(result){
+                    $.ajax({
+                        type: "delete",
+                        url: "/delete_order",
+                        data: {
+                            orderId: orderId,
+                        },
+                        success: function (response) {
+                            window.location.href = "orders_management";
+                        },
+                        error: function(response){
+                            bootbox.alert("Change fail!");
+                        }
+                    });
+                }
+                
+            }
+
+        });
+    });
+    
+    function deleteOrderDetail(orderId,detailId) {
+        bootbox.confirm({
+            size: 'small',
+            title: 'Delete Order ' + detailId,
+            message: "Are you sure?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if(result){
+                    $.ajax({
+                        type: "delete",
+                        url: "/delete_order_detail",
+                        data: {
+                            orderId: orderId,
+                            detailId: detailId,
+                        },
+                        success: function (response) {
+                            if(response.noOrder){
+                                window.location.href = "orders_management";
+                            }
+                            else{
+                                $("#"+detailId).empty();
+                                $("#total-amount").text(response.newTotalAmount.toLocaleString('en-US') + 'vnđ');
+                            }
+                        },
+                        error: function(response){
+                            bootbox.alert("Change fail!");
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script> {{/section}}

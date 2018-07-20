@@ -1,0 +1,10 @@
+{
+  "001": {
+  	"name": "Hồ Chí Minh",
+  	"state": ["Quận 1","Quận 3"]
+  },
+  "002": {
+  	"name": "Đồng Nai",
+  	"state": ["Biên Hòa","Bửu Long"]
+  }
+ }

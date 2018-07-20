@@ -1,0 +1,169 @@
+{{#section 'BigTitle'}} Products Management {{/section}}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    PRODUCT INFO
+                </h2>
+            </div>
+            <div class="body">
+                {{#with product}}
+                <form id="form-product-info" action="/addproduct" method="post" enctype="multipart/form-data">
+                    <div class="row clearfix">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <label for="">Product Name</label>
+                                    <input name="productname" type="text" class="form-control" placeholder="NAME" value="{{productName}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row clearfix">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <label for="">Price</label>
+                                    <input name="price" type="number" min="0" class="form-control" placeholder="PRICE" value="{{price}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <label for="">Available Quantity</label>
+                                    <input name="qty" type="number" min="0" class="form-control" placeholder="QUANTITIES" value="{{availableQuantity}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <label for="">Sold Quantity</label>
+                                    <input name="qty" type="number" min="0" class="form-control" placeholder="QUANTITIES" value="{{soldQuantity}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="">Brand</label>
+                            <select name="manufactureId" class="form-control" id="sel1">
+                                <option disabled selected value> {{manufacturerName}}</option>
+                                {{#each ../lManufacturer}}
+                                <option value="{{manufacturerId}}">{{manufacturerName}}</option>
+                                {{/each}}
+
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Category </label>
+                            <select name="categoryId" class="form-control" id="sel2">
+                                <option disabled selected value> {{categoryName}} </option>
+                                {{#each ../lCategory}}
+                                <option value="{{categoryId}}">{{categoryName}}</option>
+                                {{/each}}
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <label for="">Views</label>
+                                    <input name="view" type="number" min="0" class="form-control" placeholder="number views" value="{{views}}">
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <label for="">Created Date</label>
+                                    <input name="create-date" type = "datetime" class="form-control" placeholder="01/01/2000" value="{{createdDate}}">
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <label for="">Updated Date</label>
+                                    <input name="update-date" type = "datetime" class="form-control" placeholder="01/01/2000" value="{{updatedDate}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="exampleFormControlFile1">List Image</label>
+                            </div>
+                            {{#each images}}
+                            <div class="col-md-3">
+                                <img class="img-responsive thumbnail" src="uploads/{{imagePath}}" alt="">
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-md-12">
+                            <div class="form-group shadow-textarea purple-border">
+                                <label for="exampleFormControlTextarea6">Description</label>
+                                <textarea name="description" class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3" placeholder="Write something here...">{{description}}</textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                </form>
+
+                <button type="submit" class="btn btn-success" disabled>Save</button>
+                <button type="button" class="btn btn-warning">Change</button>
+                {{/with}}
+                <div class="row clearfix" id="dvPreview"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{{#section 'js'}}
+<script>
+    $('#form-product-info').find(':input').attr('disabled', 'disabled');
+
+    window.onload = function () {
+        var fileUpload = document.getElementById("fileupload");
+        fileUpload.onchange = function () {
+            if (typeof (FileReader) != "undefined") {
+                var dvPreview = document.getElementById("dvPreview");
+                dvPreview.innerHTML = "";
+                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                for (var i = 0; i < fileUpload.files.length; i++) {
+                    var file = fileUpload.files[i];
+                    if (regex.test(file.name.toLowerCase())) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var col = document.createElement('div');
+                            col.className = 'col-sm-12';
+                            col.innerHTML = `<img  style='width:100%;height:100%;' src='${e.target.result}'>`;
+                            dvPreview.appendChild(col);
+                        }
+                        reader.readAsDataURL(file);
+                    } else {
+                        alert(file.name + " is not a valid image file.");
+                        dvPreview.innerHTML = "";
+                        return false;
+                    }
+                }
+            } else {
+                alert("This browser does not support HTML5 FileReader.");
+            }
+        }
+    };
+
+</script> {{/section}}
+

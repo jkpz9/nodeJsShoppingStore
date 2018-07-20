@@ -1,0 +1,67 @@
+{{#section 'bigTitle'}}
+    LOGIN PAGE
+{{/section}}
+<section id="login">
+        <div class="container">
+            <div class="row" style="margin-top:30px;">
+            <div class="col-lg-12">
+              {{#if success_msg}}
+                <div class="alert alert-success">{{success_msg}}</div>
+              {{/if}}
+
+              {{#if error_msg}}
+                <div class="alert alert-danger">{{error_msg}}</div>
+              {{/if}}
+
+               {{#if warning_msg}}
+                <div class="alert alert-danger">{{warning_msg}}</div>
+              {{/if}}
+
+             {{!--  {{#if error}}
+                <div class="alert alert-danger">{{error}}</div>
+              {{/if}} --}}
+            </div>
+             </div>
+            <div class="row" style="margin-top: 40px;">
+                <div class="col-md-12">
+                    {{# if errors }}
+                    {{# each errors }}
+                          <p class="alert alert-danger">{{ this.msg }}</p>
+                    {{/each}}
+                    {{/if}}
+
+                    {{# if error }}
+                         <p class="alert alert-danger">{{ error }}</p>
+                    {{/if}}
+
+                    {{# if msg }}
+                         <p class="alert alert-success">{{ msg }}</p>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-wrap">
+                    <h1>Log in with your email or username</h1>
+                        <form role="form" action="/login" method="post" id="login-form" autocomplete="off">
+                            <div class="form-group">
+                                <label for="username" class="sr-only">Email</label>
+                                <input type="text" name="username" id="username" class="form-control" placeholder="username or email">
+                            </div>
+                            <div class="form-group">
+                                <label for="key" class="sr-only">Password</label>
+                                <input type="password" name="password" id="key" class="form-control" placeholder="Password">
+                            </div>
+                            <div class="checkbox">
+                                <span class="character-checkbox" onclick="showPassword()"></span>
+                                <span class="label">Show password</span>
+                            </div>
+                            <input type="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Log in">
+                        </form>
+                        <a href="signup.html">Sign Up, if you haven't joined us yet</a>
+                        <hr>
+                    </div>
+                </div> <!-- /.col-xs-12 -->
+            </div> <!-- /.row -->
+        </div> <!-- /.container -->
+</section>

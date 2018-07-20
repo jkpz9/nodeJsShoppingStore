@@ -1,0 +1,181 @@
+{{#section 'bigTitle'}} CART {{/section}}
+<div class="single-product-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="product-content-right">
+                    <div class="woocommerce">
+                        {{#if products}}
+                            <table id="cart-Items" cellspacing="0" class="shop_table cart">
+                                <thead>
+                                    <tr>
+                                        <th class="product-remove">&nbsp;</th>
+                                        <th class="product-thumbnail">&nbsp;</th>
+                                        <th class="product-name">Product</th>
+                                        <th class="product-price">Price</th>
+                                        <th class="product-quantity">Quantity</th>
+                                        <th class="product-subtotal">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each products}}
+                                    <tr class="cart_item" data-row="{{item.id}}">
+                                        <td class="product-remove">
+                                            <a  href="javascript:void(0);" class="btn-remove" data-product_Id="{{item.id}}" title="Remove this item"><span class="glyphicon glyphicon-trash"></span></a>
+                                        </td>
+
+                                        <td class="product-thumbnail">
+                                            <a href="single-product.html">
+                                                <img width="145" height="145" alt="{{{img}}}" class="shop_thumbnail" src="uploads/{{{img}}}">
+                                            </a>
+                                        </td>
+
+                                        <td class="product-name">
+                                            <a href="single-product/{{item.id}}">{{item.productName}}</a>
+                                        </td>
+
+                                        <td class="product-price">
+                                            <span class="amount">{{moneyFormat item.price}} VND</span>
+                                        </td>
+
+                                        <td class="product-quantity">
+                                            <div class="quantity buttons_added">
+                                                <input id="btnMinus" type="button" class="minus" value="-">
+                                                <input id="txtValue" type="number" size="4" class="input-text qty text" title="Qty" value="{{qty}}" min="0" max="100" step="1">
+                                                <input id= "btnPlus" type="button" class="plus" value="+">
+                                            </div>
+                                        </td>
+
+                                        <td class="product-subtotal">
+                                            <span class="amount">{{moneyFormat price}} VND</span>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                    <tr>
+                                        <td class="actions" colspan="6">
+                                            <input id="btn-update" type="submit" value="Update Cart" name="update_cart" class="button">
+                                            <input id="btncheckout" type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="cart_totals ">
+                                <h2>Cart Totals</h2>
+
+                                <table cellspacing="0">
+                                    <tbody>
+                                        <tr class="shipping">
+                                            <th>Shipping and Handling</th>
+                                            <td>Free Shipping</td>
+                                        </tr>
+
+                                        <tr class="order-total">
+                                            <th>Order Total</th>
+                                            <td>
+                                                <strong>
+                                                    <span class="amount">{{{moneyFormat totalPrice}}} VNĐ</span>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            {{else}}
+                            <div class="row">
+                              <div class="col-sm-6 col-md-6 col-md-offset-3 col-sm-offset-3">
+                                <h2>No items in cart</h2>
+                              </div>
+                             </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#section 'js'}}
+<script>
+$(function() {
+
+    // Decreas the quantity of product
+    $('#btnMinus').on('click', function(){
+        var value = $('#txtValue').val();
+        if(value >0) {
+            value--;
+        $('#txtValue').val(value);
+        }
+
+    });
+
+    // increase the quantity of product
+    $('#btnPlus').on('click', function(){
+        var value = $('#txtValue').val();
+        if(value < 100) {
+            value++;
+        $('#txtValue').val(value);
+        }
+
+    });
+
+    $('#btncheckout').click(function() {
+   document.location.href='/Checkout';
+});
+    // handling for removal item
+    $('.btn-remove').on('click', function() {
+        var id =  $(this).attr("data-product_id");
+        //alert(id);
+        $.ajax({
+            url: 'remove/' + id,
+            method: 'POST',
+            success: (data) =>  {
+                console.log(data);
+                location.reload();
+            },
+            err: (err) => {
+                console.log(err);
+            }
+        });
+    });
+});
+
+// handling for update cart
+$('#btn-update').on('click', function() {
+    // $('#cart-Items > tbody > tr:gt(0)')
+    var ids = [];
+    var idsStr;
+    var qtiesArray = [];
+    var qtiesStr;
+    $('#cart-Items > tbody > tr:not(:last)').each(function(){
+        var productId = $(this).attr('data-row');
+        var ele = $(this).find(':input[type="number"]')[0];
+        var qty = ele.value.toString();
+        console.log("New Quantity: " + qty);
+        ids.push(productId);
+        qtiesArray.push(qty);
+
+    });
+      console.log(ids);
+      idsStr = ids.join(',');
+      qtiesStr = qtiesArray.join(',');
+      console.log(idsStr);
+      console.log(qtiesStr);
+
+       $.ajax({
+            url: `/updateCart?ids=${idsStr}&qties=${qtiesStr}`,
+            method: 'POST',
+            success: (data) =>  {
+                console.log(data);
+                location.reload();
+            },
+            err: (err) => {
+                console.log(err);
+            }
+        });
+
+});
+</script>
+{{/section}}
